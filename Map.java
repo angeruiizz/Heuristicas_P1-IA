@@ -22,7 +22,7 @@ public class Map {
         for(int row=0; row < charMap.length; row++){
             for(int col=0; col < charMap[0].length; col++){
                 switch(charMap[row][col]){
-                    case 'M': cost=100000000; //cost corresponding to "Mountain" ("Muntanya"), pongo valor muy alto para que esta casilla no se tenga en cuenta en las heuristicas
+                    case 'M': cost=10000; //cost corresponding to "Mountain" ("Muntanya"), pongo valor muy alto para que esta casilla no se tenga en cuenta en las heuristicas
                     break;
                     case 'N': cost= 0; //cost corresponding to "Empty" ("Buit")
                     break;
@@ -38,6 +38,20 @@ public class Map {
         }
 
         return costMap;
+    }
+    public float getCostOfCell(int row, int col) {
+        if (row >= 0 && row < costMap.length && col >= 0 && col < costMap[0].length) {
+            return costMap[row][col];
+        } else {
+            throw new IllegalArgumentException("Row or column index out of bounds.");
+        }
+    }
+    public char getCharOfCell (int row, int col){
+        if (row >= 0 && row < charMap.length && col >= 0 && col < charMap[0].length) {
+            return charMap[row][col];
+        } else {
+            throw new IllegalArgumentException("Row or column index out of bounds.");
+        }
     }
 
 

@@ -1,13 +1,6 @@
-Hay un camino que es el mas corto para llegar desde un estado actual hasta el final
-Hya un coste minimo, 
-Para que se adminisble que la heuristica <=3
-Con esto no hay que mirar el mapa y comprobar que para todos lo casos es admisible, no. 
-admisible si siempre lo és. 
-Razonamiento seguro de siempre 3= 0 .
-Almenos una 
+TO DO
+- Heuristica 2
+- Heuristica 3
+- Estrella
 
---> Mas o menos logico para valorar como de bueno es un etsado o no, miro los estados de alrededor. 
-        Pero no es valido, porque la heuristica solo se basa en el inicial y el final. 
-        En un caso real seria como si explorases. 
 
-Pseudocodigo cerca Best First 

@@ -2,9 +2,10 @@
 public class State implements Comparable<State>{
     int posX; // Posición actual X
     int posY; // Posición actual Y
-    int contOr; // Contador de oro
+    float contOr; // Contador de oro
     int contDias; // Contador de dias
     float heuristica;
+    State anterior;
 
 
 
@@ -14,6 +15,7 @@ public class State implements Comparable<State>{
         heuristica = 0;
         contOr = 0;
         contDias = 0;
+        anterior = null;
     }
 
     @Override
@@ -60,11 +62,11 @@ public class State implements Comparable<State>{
         this.posY = posY;
     }
 
-    public int getContOr() {
+    public float getContOr() {
         return contOr;
     }
 
-    public void setContOr(int contOr) {
+    public void setContOr(float contOr) {
         this.contOr = contOr;
     }
 
@@ -83,4 +85,17 @@ public class State implements Comparable<State>{
         this.heuristica = heuristica;
     }
 
+    @Override
+    public String toString() {
+        return "State [posX=" + posX + ", posY=" + posY + ", contOr=" + contOr + ", contDias=" + contDias
+                + ", heuristica=" + heuristica + "]";
+    }
+
+    public State getAnterior() {
+        return anterior;
+    }
+
+    public void setAnterior(State anterior) {
+        this.anterior = anterior;
+    }
 }

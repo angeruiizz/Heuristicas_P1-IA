@@ -1,10 +1,11 @@
 public class Heuristics {
     
-    //Algoritmo Manhattan 
+    //Algoritmo Manhattan admisible respecto distancia
     public static float Heuristic1(State currentState, State targetState, float[][] map){
         return Math.abs(currentState.getPosX() - targetState.getPosY()) + Math.abs(currentState.getPosY() - targetState.getPosY());
     }
 
+    //Algoritmo admisible respecto las monedas de oro
     public static float Heuristic2(State currentState, State targetState, float[][] map){
         float todo = 0;
         /* TODO: Implement a heuristic 
