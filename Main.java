@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -26,10 +27,11 @@ public class Main {
   public static Map CustomMap = new Map(CustomCharMap);
 
   public static void main(String args[]) {
+    int tipoCerca = 0;
+    int heuristica = 0;
 
-    // TODO: Declare map
     float[][] mapa = OriginalMap.getCostMap();
-    // TODO: Declare initial and target states
+
     State estatInicial = new State(0, 0);
     State estatFinal = new State(mapa.length - 1, mapa.length - 1);
 
@@ -39,16 +41,80 @@ public class Main {
     heuristics[1] = Heuristics::Heuristic2;
     heuristics[2] = Heuristics::Heuristic3;
 
-    cercaBestFirst bestF = new cercaBestFirst(mapa, heuristics[0]);
-    List<State> listaBF = bestF.DoSearch(estatInicial, estatFinal);
-    for (int j = 0; j < listaBF.size(); j++) {
-      System.out.println(listaBF.get(j).toString());
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.println("Hola, selecciona una de los dos tipos de CERCA o ambos:");
+    System.out.println("1. Cerca Best First");
+    System.out.println("2. Cerca Estrella");
+    System.out.println("3. Ambas cerca con las tres heuristicas");
+
+    tipoCerca = scanner.nextInt();
+
+    if (tipoCerca != 3) {
+      System.out.println("Ahora elige la heurística:");
+      System.out.println("1. Heurística 1");
+      System.out.println("2. Heurística 2");
+      System.out.println("3. Heurística 3");
+
+      heuristica = scanner.nextInt();
     }
 
-    cercaEstrella estrella = new cercaEstrella(mapa, heuristics[0]);
-    List<State> listaEstrell = estrella.DoSearch(estatInicial, estatFinal);
-    for (int j = 0; j < listaEstrell.size(); j++) {
-      System.out.println(listaEstrell.get(j).toString());
+    scanner.close();
+
+    if (tipoCerca == 1) {
+      System.out.println("Se va a ejecutar cerca tipo Best First con la heuristica numero " + heuristica);
+      cercaBestFirst bestF = new cercaBestFirst(mapa, heuristics[heuristica - 1]);
+      List<State> listaBF = bestF.DoSearch(estatInicial, estatFinal);
+      System.out.println("\nCamino:");
+      for (int j = 0; j < listaBF.size(); j++) {
+        // System.out.println(listaBF.get(j).toString());
+        System.out.print("(" + listaBF.get(j).getPosX() + "," + listaBF.get(j).getPosY() + ")");
+      }
+
+      System.out.println("\nCoste total " + listaBF.get(listaBF.size() - 1).getContOr());
+
     }
+
+    if (tipoCerca == 2) {
+      System.out.println("Se va a ejecutar cerca tipo estrella con la heuristica numero " + heuristica);
+      cercaEstrella estrella = new cercaEstrella(mapa, heuristics[heuristica - 1]);
+        List<State> listaStar = estrella.DoSearch(estatInicial, estatFinal);
+        System.out.println("\nCamino:");
+        for (int j = 0; j < listaStar.size(); j++) {
+          System.out.print("(" + listaStar.get(j).getPosX() + "," + listaStar.get(j).getPosY() + ")");
+        }
+
+        System.out.println("\nCoste total " + listaStar.get(listaStar.size() - 1).getContOr());
+    }
+
+    if (tipoCerca == 3) {
+      System.out.println("Primero se ejcuta Best First");
+      for (int i = 0; i < 3; i++) {
+        System.out.println("\nHeurisitica num " + (i + 1));
+        cercaBestFirst bestF = new cercaBestFirst(mapa, heuristics[i]);
+        List<State> listaBF = bestF.DoSearch(estatInicial, estatFinal);
+        System.out.println("Camino:");
+        for (int j = 0; j < listaBF.size(); j++) {
+          // System.out.println(listaBF.get(j).toString());
+          System.out.print("(" + listaBF.get(j).getPosX() + "," + listaBF.get(j).getPosY() + ")");
+        }
+
+        System.out.println("\nCoste total " + listaBF.get(listaBF.size() - 1).getContOr());
+
+      }
+      System.out.println("Ahora se ejecuta Estrella");
+      for (int i = 0; i < 3; i++) {
+        System.out.println("\nHeurisitica num " + (i + 1));
+        cercaEstrella estrella = new cercaEstrella(mapa, heuristics[i]);
+        List<State> listaStar = estrella.DoSearch(estatInicial, estatFinal);
+        System.out.println("Camino:");
+        for (int j = 0; j < listaStar.size(); j++) {
+          System.out.print("(" + listaStar.get(j).getPosX() + "," + listaStar.get(j).getPosY() + ")");
+        }
+
+        System.out.println("\nCoste total " + listaStar.get(listaStar.size() - 1).getContOr());
+      }
+    }
+
   }
 }

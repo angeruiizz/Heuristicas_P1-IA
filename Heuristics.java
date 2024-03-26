@@ -1,25 +1,23 @@
 public class Heuristics {
-    
-    //Algoritmo Manhattan admisible respecto distancia
-    public static float Heuristic1(State currentState, State targetState, float[][] map){
-        return Math.abs(currentState.getPosX() - targetState.getPosY()) + Math.abs(currentState.getPosY() - targetState.getPosY());
+
+    // Algoritmo Manhattan admisible respecto distancia
+    public static float Heuristic1(State currentState, State targetState, float[][] map) {
+        return Math.abs(currentState.getPosX() - targetState.getPosX())
+                + Math.abs(currentState.getPosY() - targetState.getPosY());
     }
 
-    //Algoritmo admisible respecto las monedas de oro
-    public static float Heuristic2(State currentState, State targetState, float[][] map){
-        float todo = 0;
-        /* TODO: Implement a heuristic 
-         * You CANNOT change the input parameters and return type.
-         * The value returned can ONLY be based on the current state and the target state, NOT intermediate states.
-         */
-        return todo;
+    // Heuristica admisible respecto coste i distancia
+    public static float Heuristic2(State currentState, State targetState, float[][] map) {
+        return (Math.abs(currentState.getPosX() - targetState.getPosX())
+                + Math.abs(currentState.getPosY() - targetState.getPosY())) * 1 / 2;
     }
 
-    public static float Heuristic3(State currentState, State targetState, float[][] map){
-        /* TODO: Implement a heuristic 
-         * You CANNOT change the input parameters and return type.
-         * The value returned can ONLY be based on the current state and the target state, NOT intermediate states.
-         */
-        return 0;
+    //Heuristica admisible para distancia y coste
+    public static float Heuristic3(State currentState, State targetState, float[][] map) {
+        float distance = Math.abs(currentState.getPosX() - targetState.getPosX()) + Math.abs(currentState.getPosY() - targetState.getPosY());
+        float cost = map[currentState.getPosX()][currentState.getPosY()]; //Coste de esa posición
+        float costeAcu = currentState.getContOr(); //Coste acumulado
+        return distance + cost + costeAcu;
+
     }
 }
