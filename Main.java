@@ -72,6 +72,7 @@ public class Main {
       }
 
       System.out.println("\nCoste total " + listaBF.get(listaBF.size() - 1).getContOr());
+      System.out.println("Duracion del trayecto " + listaBF.get(listaBF.size() - 1).getContDias() + " días");
 
     }
 
@@ -85,6 +86,7 @@ public class Main {
         }
 
         System.out.println("\nCoste total " + listaStar.get(listaStar.size() - 1).getContOr());
+        System.out.println("Duracion del trayecto " + listaStar.get(listaStar.size() - 1).getContDias() + " días");
     }
 
     if (tipoCerca == 3) {
@@ -100,9 +102,10 @@ public class Main {
         }
 
         System.out.println("\nCoste total " + listaBF.get(listaBF.size() - 1).getContOr());
+        System.out.println("Duracion del trayecto " + listaBF.get(listaBF.size() - 1).getContDias() + " días");
 
       }
-      System.out.println("Ahora se ejecuta Estrella");
+      System.out.println("\nAhora se ejecuta Estrella");
       for (int i = 0; i < 3; i++) {
         System.out.println("\nHeurisitica num " + (i + 1));
         cercaEstrella estrella = new cercaEstrella(mapa, heuristics[i]);
@@ -113,6 +116,7 @@ public class Main {
         }
 
         System.out.println("\nCoste total " + listaStar.get(listaStar.size() - 1).getContOr());
+        System.out.println("Duracion del trayecto " + listaStar.get(listaStar.size() - 1).getContDias() + " días");
       }
     }
 

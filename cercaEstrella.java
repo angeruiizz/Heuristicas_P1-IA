@@ -38,13 +38,13 @@ public class cercaEstrella extends Search {
                 for (State sucesor : sucesores) {
                     if (!tratados.contains(sucesor)) {
                         if (!pendientes.contains(sucesor)) {
-                            sucesor.setAnterior(actual);
+                            sucesor.setAnterior(actual); //guardar ref
                             pendientes.add(sucesor);
                             
                         } else if (sucesor.getContOr()+sucesor.getHeuristica() < pendientes.get(pendientes.indexOf(sucesor)).getContOr() 
                         + pendientes.get(pendientes.indexOf(sucesor)).getHeuristica()){
                             pendientes.remove(sucesor); //elimino en esa coordenada
-                            sucesor.setAnterior(actual);
+                            sucesor.setAnterior(actual); //Guardamos referencia
                             pendientes.add(sucesor); //añado con el nuevo camino
                         }
                     }
@@ -55,11 +55,11 @@ public class cercaEstrella extends Search {
 
         if (encontrado) {
             State hijos = finalS;
-            while (hijos.anterior != null) {
+            while (hijos.anterior != null) { //hasta llegar al primero
                 resultado.add(hijos);
                 hijos = hijos.anterior;
             }
-            Collections.reverse(resultado);
+            Collections.reverse(resultado); //Dar a la inversa el resultado para que empiece el camino desde el inicio
             
             return resultado;
         } else {
@@ -74,84 +74,26 @@ public class cercaEstrella extends Search {
     }
 
 
-    @Override
-    protected List<State> EvaluateOperators(State currentState, State targetState) {
-        int posX = currentState.getPosX();
-        int posY = currentState.getPosY();
-        List<State> sucesores = new ArrayList<>();
-        float OrAct = currentState.getContOr();
-        int contDias = currentState.getContDias();
-
-        // arriba, si Y no es la primera posición, se puede mirar arriba
-        if (posY >= 0 && posY < costMap.length - 1) {
-            State auxUp = new State(posX, posY + 1);
-            auxUp.setHeuristica(heuristic.Evaluate(auxUp, targetState, costMap));
-            if (costMap[auxUp.getPosY()][auxUp.getPosX()] < 100) { // Si no es montaña
-                sucesores.add(auxUp);
-                auxUp.setContOr(OrAct + (5 - costMap[auxUp.getPosY()][auxUp.getPosX()]));
-                auxUp.setContDias(contDias + 1);
-
-            }
-        }
-
-        // abajo, si Y es mas pequeño que el maximo de filas, podemos mirar abajo
-        if (posY < costMap.length - 1 && posY != 0) {
-            State auxDown = new State(posX, posY - 1);
-            auxDown.setHeuristica(heuristic.Evaluate(auxDown, targetState, costMap));
-            if (costMap[auxDown.getPosY()][auxDown.getPosX()] < 100) {
-                sucesores.add(auxDown);
-                auxDown.setContOr(OrAct + (5 - costMap[auxDown.getPosY()][auxDown.getPosX()]));
-                auxDown.setContDias(contDias + 1);
-            }
-        }
-
-        // derecha, si X es mas grande que 0, podemos mirar a la derecha
-        if (posX >= 0 && posX < costMap.length - 1) {
-            State auxRight = new State(posX + 1, posY);
-            auxRight.setHeuristica(heuristic.Evaluate(auxRight, targetState, costMap));
-            if (costMap[auxRight.getPosY()][auxRight.getPosX()] < 100) {
-                sucesores.add(auxRight);
-                auxRight.setContOr(OrAct + (5 - costMap[auxRight.getPosY()][auxRight.getPosX()]));
-                auxRight.setContDias(contDias + 1);
-            }
-        }
-
-        // izquierda si x es mas pequeño que el max de columnas podemos mirar a la
-        // izquierda
-        if (posX > costMap.length - 1 && posX != 0) {
-            State auxLeft = new State(posX - 1, posY);
-            auxLeft.setHeuristica(heuristic.Evaluate(auxLeft, targetState, costMap));
-            if (costMap[auxLeft.getPosY()][auxLeft.getPosX()] < 100) {
-                sucesores.add(auxLeft);
-                auxLeft.setContOr(OrAct + (5 - costMap[auxLeft.getPosY()][auxLeft.getPosX()]));
-                auxLeft.setContDias(contDias + 1);
-            }
-        }
-
-        return sucesores;
-
-    }
-
     //función recursiva que parte en mitades y ordena cada mitad
     private void quickSort(List<State> pendientes, int primer, int ultim) {
-        if (primer < ultim) { //Si el 
-            int medio = partition(pendientes, primer, ultim);
-            quickSort(pendientes, primer, medio - 1); //parte de abajo
-            quickSort(pendientes, medio + 1, ultim); //parte de arriba
+        if (primer < ultim) { //Si primer elemeto < que el ultimo para llegar al final del bucle 
+            int medio = partir(pendientes, primer, ultim); //sacamos elemento medio 
+            quickSort(pendientes, primer, medio - 1); //parte izq
+            quickSort(pendientes, medio + 1, ultim); //parte drch
         }
     }
 
-    private int partition(List<State> pendientes, int primer, int ultim) {
-        float pivot = pendientes.get(ultim).getHeuristica() + pendientes.get(ultim).getContOr();
-        int i = primer - 1;
+    private int partir(List<State> pendientes, int primer, int ultim) {
+        float pivot = pendientes.get(ultim).getHeuristica(); //obtener un pivote para ir comparando
+        int i = primer - 1; //Obtener pos real
 
         for (int j = primer; j < ultim; j++) {
-            if (pendientes.get(j).getHeuristica() + pendientes.get(ultim).getContOr()  <= pivot) {
-                i++;
-                Collections.swap(pendientes, i, j);
+            if (pendientes.get(j).getHeuristica() <= pivot) { //Comparo con a heuristica en la pos j
+                i++; //Avanzar en la tabla
+                Collections.swap(pendientes, i, j); //Intercambio de posición y pongo en la posición i el valor de la j
             }
         }
-        Collections.swap(pendientes, i + 1, ultim);
+        Collections.swap(pendientes, i + 1, ultim); //intercambiamos 
         return i + 1;
     }
 

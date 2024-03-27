@@ -4,13 +4,13 @@ public class Heuristics {
     public static float Heuristic1(State currentState, State targetState, float[][] map) {
         float x = currentState.getPosX() - targetState.getPosX();
         float y = currentState.getPosY() - targetState.getPosY();
-        return (float) Math.sqrt(x * x + y * y);
+        return (float) Math.sqrt(x * x - y * y); //hipotenusa
     }
 
     // Heuristica admisible y optima respecto coste i distancia (uso de Manhattan + coste)
     public static float Heuristic2(State currentState, State targetState, float[][] map) {
         return (Math.abs(currentState.getPosX() - targetState.getPosX())
-                + Math.abs(currentState.getPosY() - targetState.getPosY())) + 1 / 2; // 1/2 sera siempre el beneficio minimo 
+                + Math.abs(currentState.getPosY() - targetState.getPosY()));
     }
 
     //Heuristica admisible para distancia y coste
@@ -19,6 +19,5 @@ public class Heuristics {
         float cost = map[currentState.getPosX()][currentState.getPosY()]; //Coste de esa posición en mapa
         float costAcu = currentState.getContOr(); //Coste acumulado del esatdo actual
         return dist + cost + costAcu;
-
     }
 }
