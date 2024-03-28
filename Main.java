@@ -18,22 +18,21 @@ public class Main {
   public static Map OriginalMap = new Map(OriginalCharMap);
 
   public static char[][] CustomCharMap = {
-      { 'N', 'N', 'N', 'N', 'N' },
-      { 'N', 'N', 'N', 'N', 'N' },
-      { 'N', 'N', 'N', 'N', 'N' },
-      { 'N', 'N', 'N', 'N', 'N' },
-      { 'N', 'N', 'N', 'N', 'N' },
+      { 'N', 'P', 'N', 'N', 'N' },
+      { 'A', 'C', 'M', 'A', 'N' },
+      { 'N', 'M', 'M', 'C', 'C' },
+      { 'N', 'C', 'N', 'N', 'C' },
+      { 'N', 'N', 'P', 'C', 'N' },
   };
   public static Map CustomMap = new Map(CustomCharMap);
 
   public static void main(String args[]) {
     int tipoCerca = 0;
     int heuristica = 0;
+    int tipoMapa = 0;
 
-    float[][] mapa = OriginalMap.getCostMap();
-
-    State estatInicial = new State(0, 0);
-    State estatFinal = new State(mapa.length - 1, mapa.length - 1);
+    float[][] mapa1 = OriginalMap.getCostMap();
+    float[][] mapa2 = CustomMap.getCostMap();
 
     // Declare heuristics
     Heuristic[] heuristics = new Heuristic[3];
@@ -59,7 +58,22 @@ public class Main {
       heuristica = scanner.nextInt();
     }
 
+    System.out.println("Que mapa prefieres? ");
+    System.out.println("1. Original");
+    System.out.println("2. Custom");
+
+    tipoMapa = scanner.nextInt();
     scanner.close();
+
+    float [][] mapa = null;
+    if (tipoMapa == 1) {
+       mapa = mapa1;
+    } else {
+       mapa = mapa2;
+    }
+
+    State estatInicial = new State(0, 0);
+    State estatFinal = new State(mapa.length - 1, mapa.length - 1);
 
     if (tipoCerca == 1) {
       System.out.println("Se va a ejecutar cerca tipo Best First con la heuristica numero " + heuristica);
@@ -79,14 +93,14 @@ public class Main {
     if (tipoCerca == 2) {
       System.out.println("Se va a ejecutar cerca tipo estrella con la heuristica numero " + heuristica);
       cercaEstrella estrella = new cercaEstrella(mapa, heuristics[heuristica - 1]);
-        List<State> listaStar = estrella.DoSearch(estatInicial, estatFinal);
-        System.out.println("\nCamino:");
-        for (int j = 0; j < listaStar.size(); j++) {
-          System.out.print("(" + listaStar.get(j).getPosX() + "," + listaStar.get(j).getPosY() + ")");
-        }
+      List<State> listaStar = estrella.DoSearch(estatInicial, estatFinal);
+      System.out.println("\nCamino:");
+      for (int j = 0; j < listaStar.size(); j++) {
+        System.out.print("(" + listaStar.get(j).getPosX() + "," + listaStar.get(j).getPosY() + ")");
+      }
 
-        System.out.println("\nCoste total " + listaStar.get(listaStar.size() - 1).getContOr());
-        System.out.println("Duracion del trayecto " + listaStar.get(listaStar.size() - 1).getContDias() + " días");
+      System.out.println("\nCoste total " + listaStar.get(listaStar.size() - 1).getContOr());
+      System.out.println("Duracion del trayecto " + listaStar.get(listaStar.size() - 1).getContDias() + " días");
     }
 
     if (tipoCerca == 3) {

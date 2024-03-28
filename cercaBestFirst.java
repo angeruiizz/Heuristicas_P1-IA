@@ -35,8 +35,6 @@ public class cercaBestFirst extends Search {
                 encontrado = true;
                 finalS = actual; // Me guardo la referencia
 
-                // resultado.add(actual);
-
             } else {
                 List<State> sucesores = EvaluateOperators(actual, targetState); // Busca los hijos
                 for (State sucesor : sucesores) {

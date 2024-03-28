@@ -85,7 +85,7 @@ public class cercaEstrella extends Search {
 
     private int partir(List<State> pendientes, int primer, int ultim) {
         float pivot = pendientes.get(ultim).getHeuristica(); //obtener un pivote para ir comparando
-        int i = primer - 1; //Obtener pos real
+        int i = primer - 1; //pos aux 
 
         for (int j = primer; j < ultim; j++) {
             if (pendientes.get(j).getHeuristica() <= pivot) { //Comparo con a heuristica en la pos j
@@ -93,8 +93,8 @@ public class cercaEstrella extends Search {
                 Collections.swap(pendientes, i, j); //Intercambio de posición y pongo en la posición i el valor de la j
             }
         }
-        Collections.swap(pendientes, i + 1, ultim); //intercambiamos 
-        return i + 1;
+        Collections.swap(pendientes, i + 1, ultim); //intercambiamos obteniendo el pivote en de tal forma que tenemos a la izquierda < que el pivote y a la derecha > que el pivote
+        return i + 1; //devolvemos justo el medio
     }
 
 }
