@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -65,11 +66,11 @@ public class Main {
     tipoMapa = scanner.nextInt();
     scanner.close();
 
-    float [][] mapa = null;
+    float[][] mapa = null;
     if (tipoMapa == 1) {
-       mapa = mapa1;
+      mapa = mapa1;
     } else {
-       mapa = mapa2;
+      mapa = mapa2;
     }
 
     State estatInicial = new State(0, 0);
@@ -104,35 +105,68 @@ public class Main {
     }
 
     if (tipoCerca == 3) {
-      System.out.println("Primero se ejcuta Best First");
+      ArrayList<Float> coste = new ArrayList<>();
+      ArrayList<Integer> dias = new ArrayList<>();
+      System.out.println();
+
+      System.out.println("RESULTADOS CAMINO MODO RESUMEN");
+
+      System.out.println("Resultados de Best First:");
+      System.out.println("Heurística\tCamino");
+
       for (int i = 0; i < 3; i++) {
-        System.out.println("\nHeurisitica num " + (i + 1));
+        System.out.print("Heurística " + (i + 1) + "\t\t");
+
         cercaBestFirst bestF = new cercaBestFirst(mapa, heuristics[i]);
         List<State> listaBF = bestF.DoSearch(estatInicial, estatFinal);
-        System.out.println("Camino:");
-        for (int j = 0; j < listaBF.size(); j++) {
-          // System.out.println(listaBF.get(j).toString());
-          System.out.print("(" + listaBF.get(j).getPosX() + "," + listaBF.get(j).getPosY() + ")");
+
+        // Imprimir el camino
+        for (State state : listaBF) {
+          System.out.print("(" + state.getPosX() + "," + state.getPosY() + ") ");
         }
 
-        System.out.println("\nCoste total " + listaBF.get(listaBF.size() - 1).getContOr());
-        System.out.println("Duracion del trayecto " + listaBF.get(listaBF.size() - 1).getContDias() + " días");
+        System.out.println();
+
+        coste.add(listaBF.get(listaBF.size() - 1).getContOr());
+        dias.add(listaBF.get(listaBF.size() - 1).getContDias());
 
       }
-      System.out.println("\nAhora se ejecuta Estrella");
+
+      System.out.println("\nResultados de A*:");
+      System.out.println("Heurística\tCamino");
       for (int i = 0; i < 3; i++) {
-        System.out.println("\nHeurisitica num " + (i + 1));
+        System.out.print("Heurística " + (i + 1) + "\t\t");
+
         cercaEstrella estrella = new cercaEstrella(mapa, heuristics[i]);
         List<State> listaStar = estrella.DoSearch(estatInicial, estatFinal);
-        System.out.println("Camino:");
-        for (int j = 0; j < listaStar.size(); j++) {
-          System.out.print("(" + listaStar.get(j).getPosX() + "," + listaStar.get(j).getPosY() + ")");
+
+        for (State state : listaStar) {
+          System.out.print("(" + state.getPosX() + "," + state.getPosY() + ") ");
         }
 
-        System.out.println("\nCoste total " + listaStar.get(listaStar.size() - 1).getContOr());
-        System.out.println("Duracion del trayecto " + listaStar.get(listaStar.size() - 1).getContDias() + " días");
+        System.out.println();
+        coste.add(listaStar.get(listaStar.size() - 1).getContOr());
+        dias.add(listaStar.get(listaStar.size() - 1).getContDias());
+      }
+
+      System.out.println("\nResumen COSTE y DIAS (=estados tratados)");
+      System.out.println("BESTFIRST");
+      System.out.println("Heurística\tCoste\tDías");
+
+      for (int i = 0; i < 3; i++) {
+        System.out.print("Heurística " + (i + 1) + "\t");
+        System.out.println(coste.get(i) + "\t" + dias.get(i));
+      }
+
+      System.out.println("A*");
+      System.out.println("Heurística\tCoste\tDías");
+
+      int j = 0;
+      for (int i = 3; i < 6; i++) {
+        System.out.print("Heurística " + (j) + "\t");
+        System.out.println(coste.get(i) + "\t" + dias.get(i));
+        j++;
       }
     }
-
   }
 }

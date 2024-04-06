@@ -1,13 +1,13 @@
 public class Heuristics {
 
-    // Heuristica admisible respecto distancia (Uso euclidiana-teorema pitagoras)
+    // Heuristica admisible respecto coste (Uso euclidiana-teorema pitagoras)
     public static float Heuristic1(State currentState, State targetState, float[][] map) {
         float x = currentState.getPosX() - targetState.getPosX();
         float y = currentState.getPosY() - targetState.getPosY();
-        return (float) Math.sqrt(x * x - y * y); //hipotenusa
+        return (float) (Math.sqrt(x * x - y * y)*0.5); //hipotenusa * gasto minimo para que sea admisible al costo
     }
 
-    // Heuristica admisible y optima respecto coste i distancia (uso de Manhattan + coste)
+    // Heuristica admisible respecto distancia, uso de distancia manhattan
     public static float Heuristic2(State currentState, State targetState, float[][] map) {
         return (Math.abs(currentState.getPosX() - targetState.getPosX())
                 + Math.abs(currentState.getPosY() - targetState.getPosY()));
